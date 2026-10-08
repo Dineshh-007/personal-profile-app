@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: personal-profile
+
+spec:
+  replicas: 2
+
+  selector:
+    matchLabels:
+      app: personal-profile
+
+  template:
+    metadata:
+      labels:
+        app: personal-profile
+
+    spec:
+      containers:
+        - name: personal-profile
+          image: dineshh007/personal-profile-app:latest
+
+          ports:
+            - containerPort: 80
+
+---
+
+apiVersion: v1
+kind: Service
+
+metadata:
+  name: personal-profile-service
+
+spec:
+  type: NodePort
+
+  selector:
+    app: personal-profile
+
+  ports:
+    - port: 80
+      targetPort: 80
+      nodePort: 30010
